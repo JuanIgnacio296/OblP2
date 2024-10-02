@@ -73,7 +73,14 @@ public class Obligatorio1P2 {
         System.out.println("Que desea hacer:");
     }
     public static void registrarJugador(){
-        
+        Scanner lectorInt = new Scanner(System.in);
+        Scanner lectorLine = new Scanner(System.in);
+        System.out.println("Ingrese nombre");
+        String nombre = lectorLine.nextLine();
+        System.out.println("Ingrese edad");
+        int edad = lectorInt.nextInt();
+        System.out.println("Ingrese alias");
+        String alias = lectorLine.nextLine();
     }
 
 }

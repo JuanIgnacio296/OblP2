@@ -7,7 +7,7 @@ package obligatorio1p2;
 import java.util.*;
 
 public class Obligatorio1P2 {
-    Jugadores misJugadores = new Jugadores();
+    public static Jugadores MisJugadores = new Jugadores();
     public static void main(String[] args) {
         Scanner lectorInt = new Scanner(System.in);
         
@@ -82,7 +82,7 @@ public class Obligatorio1P2 {
         int edad = lectorInt.nextInt();
         System.out.println("Ingrese alias");
         String alias = lectorLine.nextLine();
-        while (!misJugadores.validarAlias(alias)){
+        while (!MisJugadores.validarAlias(alias)){
             System.out.println("Ya existe ese alias, por favor reingrese");
             alias = lectorLine.nextLine();
         }

@@ -4,11 +4,22 @@
  */
 package obligatorio1p2;
 
-public class Jugador{
+public class Jugador implements Comparable<Jugador>{
     private String nombre;
     private int edad;
     private String alias;
     private static int Ganadas;
+
+    public Jugador(){
+        this.nombre = "Sin nombre";
+        this.edad = 0;
+        this.alias = "Sin alias";
+    }
+    public Jugador(String unNombre, int unaEdad, String unAlias) {
+        this.nombre = unNombre;
+        this.edad = unaEdad;
+        this.alias = unAlias;
+    }
 
     public String getNombre() {
         return nombre;
@@ -42,7 +53,6 @@ public class Jugador{
         Jugador.Ganadas = Ganadas;
     }
 
-    
     @Override
     public String toString() {
         return alias;
@@ -50,7 +60,9 @@ public class Jugador{
     public boolean equals(Jugador j){
         return this.getAlias()==j.getAlias();
     }
-    
+    public int compareTo(Jugador j){
+        return Jugador.Ganadas - j.Ganadas;       
+    }
     
     
 }

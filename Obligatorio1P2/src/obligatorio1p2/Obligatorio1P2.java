@@ -7,32 +7,44 @@ package obligatorio1p2;
 import java.util.*;
 
 public class Obligatorio1P2 {
+
     public static Jugadores MisJugadores = new Jugadores();
+
     public static void main(String[] args) {
         Scanner lectorInt = new Scanner(System.in);
-        
+
         boolean seguir = true;
-        while (seguir){
+        while (seguir) {
             mostrarMenu();
-            int opcion = lectorInt.nextInt();
-            switch(opcion){
+            int opcion = 0;
+            boolean correcto = false;
+            while (!correcto) {
+                try {
+                    opcion = lectorInt.nextInt();
+                    correcto = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("El dato que ingreso no es numerico, reingrese:");
+                    lectorInt.nextLine();
+                }
+            }
+            switch (opcion) {
                 case 1:
-                    
+                    registrarJugador();
                     break;
                 case 2:
-                    
+
                     break;
                 case 3:
-                    
+
                     break;
                 case 4:
-                    
+
                     break;
                 case 5:
-                    seguir=false;
+                    seguir = false;
                     break;
                 default:
-                    System.out.println("Opcion incorrecta");
+                    System.out.println("No hay mas opciones");
                     break;
             }
         }
@@ -64,7 +76,8 @@ public class Obligatorio1P2 {
         System.out.println(verdeFondo + "*******************" + reset);
 
     }
-    public static void mostrarMenu(){
+
+    public static void mostrarMenu() {
         System.out.println("Menu:");
         System.out.println("1-Registrar un Jugador");
         System.out.println("2-Jugar al Gran Tateti entre 2 personas");
@@ -73,19 +86,33 @@ public class Obligatorio1P2 {
         System.out.println("5-Salir");
         System.out.println("Que desea hacer:");
     }
-    public static void registrarJugador(){
+
+    public static void registrarJugador() {
         Scanner lectorInt = new Scanner(System.in);
         Scanner lectorLine = new Scanner(System.in);
         System.out.println("Ingrese nombre");
         String nombre = lectorLine.nextLine();
         System.out.println("Ingrese edad");
-        int edad = lectorInt.nextInt();
+        int edad = 0;
+        boolean correcto = false;
+        while (!correcto) {
+            try {
+                edad = lectorInt.nextInt();
+                correcto = true;
+            } catch (InputMismatchException e) {
+                System.out.println("El dato que ingreso no es numerico, reingrese:");
+                lectorInt.nextLine();
+            }
+        }
+
         System.out.println("Ingrese alias");
         String alias = lectorLine.nextLine();
-        while (!MisJugadores.validarAlias(alias)){
+        while (!MisJugadores.validarAlias(alias)) {
             System.out.println("Ya existe ese alias, por favor reingrese");
             alias = lectorLine.nextLine();
         }
+        Jugador j = new Jugador(nombre, edad, alias);
+        MisJugadores.agregarJugador(j);
     }
 
 }

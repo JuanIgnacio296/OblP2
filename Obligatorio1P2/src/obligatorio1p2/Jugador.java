@@ -49,16 +49,13 @@ public class Jugador implements Comparable<Jugador>{
         return Ganadas;
     }
 
-    public static void setGanadas(int Ganadas) {
-        Jugador.Ganadas = Ganadas;
-    }
 
     @Override
     public String toString() {
         return alias;
     }
     public boolean equals(Jugador j){
-        return this.getAlias()==j.getAlias();
+        return this.getAlias().equalsIgnoreCase(j.getAlias());
     }
     public int compareTo(Jugador j){
         return Jugador.Ganadas - j.Ganadas;       

@@ -10,11 +10,18 @@ public class Jugadores {
     private ArrayList<Jugador> listaJugadores;
     
     public Jugadores() {
-        listaJugadores = new ArrayList<Jugador>(); 
+        listaJugadores = new ArrayList<Jugador>();
+    }
+    public void agregarJugador(Jugador j){
+        listaJugadores.add(j);
     }
     public boolean validarAlias(String unAlias){
-        Jugador aux = new Jugador();
-        aux.setAlias(unAlias);
-        return listaJugadores.contains(aux);
+        boolean valido = true;
+        for (int i = 0; i < listaJugadores.size() && valido; i++) {
+            if(listaJugadores.get(i).getAlias().equals(unAlias)){
+                valido = false;
+            }
+        }
+        return valido;
     }
 }

@@ -49,7 +49,7 @@ public class Jugador implements Comparable<Jugador>{
         return Ganadas;
     }
 
-
+//GH
     @Override
     public String toString() {
         return alias;

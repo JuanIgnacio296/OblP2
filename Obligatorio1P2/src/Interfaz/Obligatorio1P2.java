@@ -10,6 +10,7 @@ import obligatorio1p2.Jugadores;
 
 public class Obligatorio1P2 {
     //hola
+    //hola 2
     public static Jugadores MisJugadores = new Jugadores();
 
     public static void main(String[] args) {

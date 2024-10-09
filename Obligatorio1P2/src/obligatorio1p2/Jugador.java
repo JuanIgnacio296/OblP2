@@ -8,7 +8,7 @@ public class Jugador implements Comparable<Jugador>{
     private String nombre;
     private int edad;
     private String alias;
-    private static int Ganadas;
+    private int ganadas = 0;
 
     public Jugador(){
         this.nombre = "Sin nombre";
@@ -45,8 +45,8 @@ public class Jugador implements Comparable<Jugador>{
         this.alias = alias;
     }
 
-    public static int getGanadas() {
-        return Ganadas;
+    public int getGanadas() {
+        return ganadas;
     }
 
 //GH
@@ -58,7 +58,7 @@ public class Jugador implements Comparable<Jugador>{
         return this.getAlias().equalsIgnoreCase(j.getAlias());
     }
     public int compareTo(Jugador j){
-        return Jugador.Ganadas - j.Ganadas;       
+        return j.ganadas - this.ganadas;       
     }
     
     

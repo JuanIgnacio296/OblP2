@@ -15,6 +15,9 @@ public class Jugadores {
     public void agregarJugador(Jugador j){
         listaJugadores.add(j);
     }
+    public ArrayList<Jugador> getListaJugadores(){
+        return listaJugadores;
+    }
     public boolean validarAlias(String unAlias){
         boolean valido = true;
         for (int i = 0; i < listaJugadores.size() && valido; i++) {

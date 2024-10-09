@@ -9,8 +9,6 @@ import obligatorio1p2.Jugador;
 import obligatorio1p2.Jugadores;
 
 public class Obligatorio1P2 {
-    //hola
-    //hola
     public static Jugadores MisJugadores = new Jugadores();
 
     public static void main(String[] args) {
@@ -41,7 +39,7 @@ public class Obligatorio1P2 {
 
                     break;
                 case 4:
-
+                    mostrarRanking();
                     break;
                 case 5:
                     seguir = false;
@@ -116,6 +114,13 @@ public class Obligatorio1P2 {
         }
         Jugador j = new Jugador(nombre, edad, alias);
         MisJugadores.agregarJugador(j);
+    }
+    public static void mostrarRanking(){
+        ArrayList<Jugador> lista = MisJugadores.getListaJugadores();
+        Collections.sort(lista);
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i) + " | " + "#".repeat(lista.get(i).getGanadas()));
+        }
     }
 
 }

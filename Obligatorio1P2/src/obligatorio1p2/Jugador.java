@@ -55,7 +55,7 @@ public class Jugador implements Comparable<Jugador>{
         return alias;
     }
     public boolean equals(Jugador j){
-        return this.getAlias().equalsIgnoreCase(j.getAlias());
+        return this.getAlias().equals(j.getAlias());
     }
     public int compareTo(Jugador j){
         return j.ganadas - this.ganadas;       

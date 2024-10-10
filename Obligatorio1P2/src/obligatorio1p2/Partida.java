@@ -6,10 +6,10 @@ package obligatorio1p2;
 
 import java.util.*;
 
-public class Jugadores {
+public class Partida {
     private ArrayList<Jugador> listaJugadores;
     
-    public Jugadores() {
+    public Partida() {
         listaJugadores = new ArrayList<Jugador>();
     }
     public void agregarJugador(Jugador j){
@@ -27,4 +27,5 @@ public class Jugadores {
         }
         return valido;
     }
+    
 }

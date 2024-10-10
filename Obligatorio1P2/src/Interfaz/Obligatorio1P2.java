@@ -6,10 +6,11 @@ package Interfaz;
 
 import java.util.*;
 import obligatorio1p2.Jugador;
-import obligatorio1p2.Jugadores;
+import obligatorio1p2.Partida;
 
 public class Obligatorio1P2 {
-    public static Jugadores MisJugadores = new Jugadores();
+
+    public static Partida MisJugadores = new Partida();
 
     public static void main(String[] args) {
         Scanner lectorInt = new Scanner(System.in);
@@ -33,7 +34,11 @@ public class Obligatorio1P2 {
                     registrarJugador();
                     break;
                 case 2:
-
+                    String j1 = jugadorQueJuega();
+                    String j2 = jugadorQueJuega();
+                    while (!j2.equals(j1)) {
+                        j2 = jugadorQueJuega();
+                    }
                     break;
                 case 3:
 
@@ -115,12 +120,53 @@ public class Obligatorio1P2 {
         Jugador j = new Jugador(nombre, edad, alias);
         MisJugadores.agregarJugador(j);
     }
-    public static void mostrarRanking(){
+
+    public static void mostrarRanking() {
         ArrayList<Jugador> lista = MisJugadores.getListaJugadores();
         Collections.sort(lista);
         for (int i = 0; i < lista.size(); i++) {
             System.out.println(lista.get(i) + " | " + "#".repeat(lista.get(i).getGanadas()));
         }
+    }
+
+    public static String jugadorQueJuega() {
+        Scanner lectorLine = new Scanner(System.in);
+        ArrayList<Jugador> lista = MisJugadores.getListaJugadores();
+        System.out.println("Eliga jugador que va a jugar por su alias:");
+        String j = lectorLine.nextLine();
+        Jugador aux = new Jugador();
+        aux.setAlias(j);
+        while (!lista.contains(j)) {
+            System.out.println("El jugador no existe, ingrese otro");
+            j = lectorLine.nextLine();
+        }
+        return j;
+    }
+
+    public static String iniciarPartida() {
+        Scanner lectorLine = new Scanner(System.in);
+        System.out.println("Ingresar cuadro en el que quiere jugar");
+        String jugada = lectorLine.nextLine().toUpperCase();
+        if(jugada != "X"){
+            while (jugada.length() != 2 || (jugada.charAt(0) != 'A' || jugada.charAt(0) != 'B' || jugada.charAt(0) != 'C') || (jugada.charAt(1) != '1' || jugada.charAt(1) != '2' || jugada.charAt(1) != '3')) {
+                System.out.println("Jugada incorrecta, reingrese");
+                jugada = lectorLine.nextLine();
+            }
+        }
+        return jugada;
+    }
+
+    public static String ingresarJugada() {
+        Scanner lectorLine = new Scanner(System.in);
+        System.out.println("Ingresar jugada");
+        String jugada = lectorLine.nextLine().toLowerCase();
+        if (jugada != "x") {
+            while (jugada.length() != 2 || (jugada.charAt(0) != 'a' || jugada.charAt(0) != 'b' || jugada.charAt(0) != 'c') || (jugada.charAt(1) != '1' || jugada.charAt(1) != '2' || jugada.charAt(1) != '3')) {
+                System.out.println("Jugada incorrecta, reingrese");
+                jugada = lectorLine.nextLine();
+            }
+        }
+        return jugada;
     }
 
 }

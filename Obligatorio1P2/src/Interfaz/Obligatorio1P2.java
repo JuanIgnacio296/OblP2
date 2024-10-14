@@ -25,7 +25,7 @@ public class Obligatorio1P2 {
                     opcion = lectorInt.nextInt();
                     correcto = true;
                 } catch (InputMismatchException e) {
-                    System.out.println("El dato que ingreso no es numerico, reingrese:");
+                    System.out.println("El dato que ingreso no es nùmerico, reingrese:");
                     lectorInt.nextLine();
                 }
             }
@@ -62,23 +62,38 @@ public class Obligatorio1P2 {
         String verdeFondo = "\u001B[42m";
         String reset = "\u001B[0m";
         System.out.println(verdeFondo + "*******************" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
         System.out.println(verdeFondo + "*******************" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
         System.out.println(verdeFondo + "*******************" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset);
-        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*"
+                + reset + "-+-+-" + verdeFondo + "*" + reset);
+        System.out.println(verdeFondo + "*" + reset + " | | " + verdeFondo + "*" + reset + " | | " + verdeFondo + "*"
+                + reset + " | | " + verdeFondo + "*" + reset);
         System.out.println(verdeFondo + "*******************" + reset);
 
     }
@@ -147,11 +162,11 @@ public class Obligatorio1P2 {
         Scanner lectorLine = new Scanner(System.in);
         System.out.println("Ingresar cuadro en el que quiere jugar");
         String jugada = lectorLine.nextLine().toUpperCase();
-        if(jugada != "X"){
-            while (jugada.length() != 2 || (jugada.charAt(0) != 'A' || jugada.charAt(0) != 'B' || jugada.charAt(0) != 'C') || (jugada.charAt(1) != '1' || jugada.charAt(1) != '2' || jugada.charAt(1) != '3')) {
-                System.out.println("Jugada incorrecta, reingrese");
-                jugada = lectorLine.nextLine();
-            }
+        if (jugada != "X") {
+            while (jugadaValida(jugada)) {
+            System.out.println("Jugada incorrecta, reingrese");
+            jugada = lectorLine.nextLine();
+        }
         }
         return jugada;
     }
@@ -160,13 +175,17 @@ public class Obligatorio1P2 {
         Scanner lectorLine = new Scanner(System.in);
         System.out.println("Ingresar jugada");
         String jugada = lectorLine.nextLine().toLowerCase();
-        if (jugada != "x") {
-            while (jugada.length() != 2 || (jugada.charAt(0) != 'a' || jugada.charAt(0) != 'b' || jugada.charAt(0) != 'c') || (jugada.charAt(1) != '1' || jugada.charAt(1) != '2' || jugada.charAt(1) != '3')) {
-                System.out.println("Jugada incorrecta, reingrese");
-                jugada = lectorLine.nextLine();
-            }
+        while (jugadaValida(jugada)) {
+            System.out.println("Jugada incorrecta, reingrese");
+            jugada = lectorLine.nextLine();
         }
         return jugada;
+    }
+
+    public static boolean jugadaValida(String jugada){
+        return (jugada.equals("X") || jugada.equals("M")) || ((jugada.length() == 2)
+        && (jugada.charAt(0) == 'A' || jugada.charAt(0) == 'B' || jugada.charAt(0) == 'C')
+        && (jugada.charAt(1) == '1' || jugada.charAt(1) == '2' || jugada.charAt(1) == '3'));
     }
 
 }

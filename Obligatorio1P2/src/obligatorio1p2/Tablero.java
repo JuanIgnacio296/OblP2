@@ -4,7 +4,7 @@
  */
 package obligatorio1p2;
 
-public class Tablero {
+public class Tablero{
 
     private boolean[][] tableroX;
     private boolean[][] tableroO;
@@ -12,13 +12,18 @@ public class Tablero {
     private String jugadorX;
     private String jugadorO;
 
-    private Tablero(String jugX, String jugO) {
+    public Tablero(String jugX, String jugO) {
 
         tableroX = new boolean[3][3];
         tableroO = new boolean[3][3];
         jugadorX = jugX;
         jugadorO = jugO;
     }
+
+    public char[][][] getListaTableros(){
+        return listaTableros;
+    }    
+
 
     public char[][] tableroJugada(String jugada) {
         int pos = 0;
@@ -36,6 +41,7 @@ public class Tablero {
                 break;
         }
         return listaTableros[pos + Character.getNumericValue(jugada.charAt(1))];
+        
     }
 
     public boolean colocarFicha(String jugada, char[][] tab, String jug) {
@@ -55,8 +61,9 @@ public class Tablero {
             default:
                 break;
         }
-        if (tab[fila][col] == ' ') {
-            if (jug == this.jugadorX) {
+        
+        if (tab[fila][col] != 'X' &&  tab[fila][col] != 'O') {
+            if (jug.equals(jugadorX)) {
                 tab[fila][col] = 'X';
             } else {
                 tab[fila][col] = 'O';
@@ -64,9 +71,13 @@ public class Tablero {
         } else {
             seJugo = false;
         }
-
         return seJugo;
     }
+    
+    
+    
+    
+    
 
     public boolean tresEnRaya(char[][] tablero) {
         boolean ganada = false;

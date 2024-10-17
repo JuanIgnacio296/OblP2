@@ -54,9 +54,11 @@ public class Jugador implements Comparable<Jugador>{
     public String toString() {
         return alias;
     }
-    public boolean equals(Jugador j){
-        return this.getAlias().equals(j.getAlias());
+    @Override
+    public boolean equals(Object o){
+        return this.getAlias().equals(((Jugador)o).getAlias());
     }
+    @Override
     public int compareTo(Jugador j){
         return j.ganadas - this.ganadas;       
     }

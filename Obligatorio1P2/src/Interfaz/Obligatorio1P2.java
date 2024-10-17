@@ -46,22 +46,36 @@ public class Obligatorio1P2 {
                                         }
                                         Tablero tab = new Tablero(j1, j2);
                                         String jugador = j1;
+                                        boolean [][] tabJ; 
                                         String jugada = "A";
                                         String jugadaMini = ingresarMiniCuadro();
                                         char[][] miniCuadro = tab.tableroJugada(jugadaMini);
                                         boolean jugar = true;
                                         while (jugar) {
-                                                mostrarTablero(tab.getListaTableros(), jugadaMini);
+                                                tablero(tab, jugadaMini);
                                                 jugada = ingresarJugada();
                                                 if (!jugada.equals("X")) {
-                                                        if (!tab.colocarFicha(jugada, miniCuadro,jugador) && !jugada.equals("X")) {
+                                                        if (!tab.colocarFicha(jugada, miniCuadro, jugador)
+                                                                        && !jugada.equals("X")) {
                                                                 System.out.println("Lugar ya ocupado");
                                                                 jugada = ingresarJugada();
                                                         }
                                                         jugadaMini = jugada;
                                                         miniCuadro = tab.tableroJugada(jugadaMini);
+                                                        if(jugador.equals(j1)){
+                                                                tabJ = tab.getTableroX();
+                                                        }else{
+                                                                tabJ = tab.getTableroO();
+                                                        }
+                                                        if(tab.comprobarGanados(tabJ, tab.posicion(jugadaMini))){
+                                                                
+                                                                jugar = false;
+                                                                tablero(tab, jugadaMini);
+                                                                System.out.println("Gano "+ jugador);
+                                                        }
                                                         jugador = alternar(jugador, j1, j2);
-                                                }else{
+
+                                                } else {
                                                         jugar = false;
                                                 }
                                         }
@@ -82,7 +96,7 @@ public class Obligatorio1P2 {
                 }
 
         }
-
+        
         public static String colorFicha(char ficha) {
                 String retorno = " ";
                 String rojo = "\u001B[31m";
@@ -98,33 +112,6 @@ public class Obligatorio1P2 {
 
                 return retorno;
         }
-
-        /*
-         * public static void tableroActual(String letra, String pos, String
-         * miniTablero) {
-         * 
-         * String [][] tablero = new String [9][9];
-         * mostrarTablero(tablero);
-         * String [][] aux = new String[3][3];
-         * int fila = -1;
-         * int col = Character.getNumericValue(pos.charAt(1)) - 1;
-         * switch (pos.charAt(0)) {
-         * case 'A':
-         * fila = 0;
-         * break;
-         * case 'B':
-         * fila = 1;
-         * break;
-         * case 'C':
-         * fila = 2;
-         * break;
-         * default:
-         * break;
-         * }
-         * aux[fila][col]=letra;
-         * 
-         * }
-         */
 
         public static void mostrarMenu() {
                 System.out.println("Menu:");
@@ -219,1124 +206,94 @@ public class Obligatorio1P2 {
                                 && (jugada.charAt(1) == '1' || jugada.charAt(1) == '2' || jugada.charAt(1) == '3'));
         }
 
-        public static void ponerJugada(char tipo, String tablero, String pos) {
-
-        }
-
-        public static void mostrarTablero(char[][][] listaTablero, String miniTablero) {
+        public static void tablero(Tablero tab, String miniTablero) {
+                char[][][] listaTablero = tab.getListaTableros();
                 String amarilloFondo = "\u001B[43m";
                 String verdeFondo = "\u001B[42m";
                 String reset = "\u001B[0m";
-                switch (miniTablero) {
-                        case "A1":
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
+                String borde = "";
+                
+                String impresion = borde + "\n";
+                for (int f = 0; f < 3; f++) {
+                        char letra = ' ';
+                        switch (f) {
+                                case 0:
+                                        letra = 'A';
+                                        break;
+                                case 1:
+                                        letra = 'B';
+                                        break;
+                                case 2:
+                                        letra = 'C';
+                                        break;
+                                default:
+                                        break;
+                        }
+                        if (miniTablero.charAt(1) == '1' && miniTablero.charAt(0)==letra) {
+                                borde = amarilloFondo + "*******" + reset + verdeFondo + "************" + reset;
+                        } else {
+                                if (miniTablero.charAt(1) == '2'&& miniTablero.charAt(0)==letra) {
+                                        borde = verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
+                                                        + "******" + reset;
+                                } else {
+                                        if(miniTablero.charAt(1) == '3' && miniTablero.charAt(0)==letra){
+                                                borde = verdeFondo + "************" + reset + amarilloFondo + "*******" + reset;
+                                        }else{
+                                                borde = verdeFondo + "*******************" + reset;
+                                        }
+                                }
+                        }
+                        impresion += "\n" + borde + "\n";
+                        for (int z = 0; z < 3; z++) {
+                                for (int i = 0 + (3 * f); i < 3 + (3 * f); i++) {
+                                        String cuadroGanado = "";
+                                        impresion += colorFondo(miniTablero, i + 1-(3*f), i-(3*f), letra) + "*" + reset;
+                                        for (int j = 0; j < 3; j++) {
+                                                cuadroGanado+=colorFicha(listaTablero[i][z][j]);
+                                                if (j < 2) {
+                                                        cuadroGanado += "|";
+                                                }
 
-                                break;
-                        case "A2":
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                break;
-                        case "A3":
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                break;
-                        case "B1":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                break;
-                        case "B2":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                break;
-                        case "B3":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                break;
-                        case "C1":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                amarilloFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(amarilloFondo + "*******" + reset + verdeFondo + "************"
-                                                + reset);
-                                break;
-                        case "C2":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + amarilloFondo + "*" + reset
-                                                                + "-+-+-" + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + amarilloFondo
-                                                + "*" + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "******" + amarilloFondo + "*******" + reset + verdeFondo
-                                                                + "******" + reset);
-                                break;
-                        case "C3":
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][0][0]) + "|"
-                                                + colorFicha(listaTablero[0][0][1]) + "|"
-                                                + colorFicha(listaTablero[0][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][0][0]) + "|"
-                                                + colorFicha(listaTablero[1][0][1]) + "|"
-                                                + colorFicha(listaTablero[1][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][0][0]) + "|"
-                                                + colorFicha(listaTablero[2][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][1][0]) + "|"
-                                                + colorFicha(listaTablero[0][1][1]) + "|"
-                                                + colorFicha(listaTablero[0][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][1][0]) + "|"
-                                                + colorFicha(listaTablero[1][1][1]) + "|"
-                                                + colorFicha(listaTablero[1][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][1][0]) + "|"
-                                                + colorFicha(listaTablero[2][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[0][2][0]) + "|"
-                                                + colorFicha(listaTablero[0][2][1]) + "|"
-                                                + colorFicha(listaTablero[0][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[1][2][0]) + "|"
-                                                + colorFicha(listaTablero[1][2][1]) + "|"
-                                                + colorFicha(listaTablero[1][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[2][2][0]) + "|"
-                                                + colorFicha(listaTablero[2][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*******************" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][0][0]) + "|"
-                                                + colorFicha(listaTablero[3][0][1]) + "|"
-                                                + colorFicha(listaTablero[3][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][0][0]) + "|"
-                                                + colorFicha(listaTablero[4][0][1]) + "|"
-                                                + colorFicha(listaTablero[4][0][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][0][0]) + "|"
-                                                + colorFicha(listaTablero[5][0][1]) + "|"
-                                                + colorFicha(listaTablero[5][0][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][1][0]) + "|"
-                                                + colorFicha(listaTablero[3][1][1]) + "|"
-                                                + colorFicha(listaTablero[3][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][1][0]) + "|"
-                                                + colorFicha(listaTablero[4][1][1]) + "|"
-                                                + colorFicha(listaTablero[4][1][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][1][0]) + "|"
-                                                + colorFicha(listaTablero[5][1][1]) + "|"
-                                                + colorFicha(listaTablero[5][1][2]) + verdeFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + verdeFondo + "*"
-                                                                + reset + "-+-+-" + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[3][2][0]) + "|"
-                                                + colorFicha(listaTablero[3][2][1]) + "|"
-                                                + colorFicha(listaTablero[3][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[4][2][0]) + "|"
-                                                + colorFicha(listaTablero[4][2][1]) + "|"
-                                                + colorFicha(listaTablero[4][2][2]) + verdeFondo + "*"
-                                                + reset + colorFicha(listaTablero[5][2][0]) + "|"
-                                                + colorFicha(listaTablero[5][2][1]) + "|"
-                                                + colorFicha(listaTablero[5][2][2]) + verdeFondo + "*" + reset);
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][0][0]) + "|"
-                                                + colorFicha(listaTablero[6][0][1]) + "|"
-                                                + colorFicha(listaTablero[6][0][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][0][0]) + "|"
-                                                + colorFicha(listaTablero[7][0][1]) + "|"
-                                                + colorFicha(listaTablero[7][0][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][0][0]) + "|"
-                                                + colorFicha(listaTablero[8][0][1]) + "|"
-                                                + colorFicha(listaTablero[2][0][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][1][0]) + "|"
-                                                + colorFicha(listaTablero[6][1][1]) + "|"
-                                                + colorFicha(listaTablero[6][1][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][1][0]) + "|"
-                                                + colorFicha(listaTablero[7][1][1]) + "|"
-                                                + colorFicha(listaTablero[7][1][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][1][0]) + "|"
-                                                + colorFicha(listaTablero[8][1][1]) + "|"
-                                                + colorFicha(listaTablero[2][1][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(
-                                                verdeFondo + "*" + reset + "-+-+-" + verdeFondo + "*" + reset + "-+-+-"
-                                                                + amarilloFondo + "*"
-                                                                + reset + "-+-+-" + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "*" + reset + colorFicha(listaTablero[6][2][0]) + "|"
-                                                + colorFicha(listaTablero[6][2][1]) + "|"
-                                                + colorFicha(listaTablero[6][2][2]) + verdeFondo + "*"
-                                                + reset
-                                                + colorFicha(listaTablero[7][2][0]) + "|"
-                                                + colorFicha(listaTablero[7][2][1]) + "|"
-                                                + colorFicha(listaTablero[7][2][2]) + amarilloFondo + "*"
-                                                + reset + colorFicha(listaTablero[8][2][0]) + "|"
-                                                + colorFicha(listaTablero[8][2][1]) + "|"
-                                                + colorFicha(listaTablero[2][2][2]) + amarilloFondo + "*" + reset);
-                                System.out.println(verdeFondo + "************" + reset + amarilloFondo + "*******"
-                                                + reset);
-                                break;
-                        default:
-                                break;
+                                        }
+                                        impresion+=miniCuadroGanado(cuadroGanado, tab, i);
+                                }
+                                impresion += colorFondo(miniTablero, 3, 0, letra) + "*" + reset;
+                                String medio = colorFondo(miniTablero, 1, 0, letra) + "*" + reset + "-+-+-"
+                                                + colorFondo(miniTablero, 2, 1, letra) + "*" + reset
+                                                + "-+-+-" + colorFondo(miniTablero, 3, 2, letra) + "*"
+                                                + reset + "-+-+-" + colorFondo(miniTablero, 3, 0, letra) + "*" + reset;
+                                if (z < 2) {
+                                        impresion += "\n" + medio + "\n";
+                                }
+                                
+                        }
                 }
-
+                impresion += "\n" + borde;
+                System.out.println(impresion);
         }
-
+        public static String miniCuadroGanado(String texto, Tablero tablero, int pos){
+                String rojo = "\u001B[31m";
+                String azul = "\u001B[34m";
+                String reset = "\u001B[0m";
+                String retorno= texto;
+                int[]coord = tablero.posicion(tablero.jugada(pos));
+                if((tablero.getTableroX())[coord[0]][coord[1]]){
+                        retorno=rojo+texto+reset;
+                }
+                if((tablero.getTableroO())[coord[0]][coord[1]]){
+                        retorno=azul+texto+reset;
+                }
+                return retorno;
+        }
+        public static String colorFondo(String miniTablero, int pos1, int pos2, char letra) {
+                String color = "";
+                int num = Character.getNumericValue(miniTablero.charAt(1));
+                if ((pos1==num || num==pos2) && miniTablero.charAt(0)==letra) {
+                        color = "\u001B[43m"; // Amarillo
+                } else {
+                        color = "\u001B[42m"; // Verde
+                }
+                return color;
+        }
+       
 }

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Partida {
     private ArrayList<Jugador> listaJugadores;
-    
+    private Tablero tablero;
     public Partida() {
         listaJugadores = new ArrayList<Jugador>();
     }

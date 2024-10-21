@@ -1,26 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Juan Ignacio Alvarez - nro. estudiante: 319853
+// Facundo Lorenzoni - nro. estudiante: 342249
+
 package obligatorio1p2;
 
 public class Jugador implements Comparable<Jugador>{
+    //Variables de clase
     private String nombre;
     private int edad;
     private String alias;
-    private int ganadas = 0;
+    private int ganadas;
 
+    //constructor vacio
     public Jugador(){
         this.nombre = "Sin nombre";
         this.edad = 0;
         this.alias = "Sin alias";
     }
+    //constructor con paramteros
     public Jugador(String unNombre, int unaEdad, String unAlias) {
         this.nombre = unNombre;
         this.edad = unaEdad;
         this.alias = unAlias;
+        this.ganadas = 0;
     }
-
+    //gets y sets
     public String getNombre() {
         return nombre;
     }
@@ -48,8 +51,11 @@ public class Jugador implements Comparable<Jugador>{
     public int getGanadas() {
         return ganadas;
     }
+    public void ganar(){
+        ganadas++;
+    }
 
-//GH
+    //los Override
     @Override
     public String toString() {
         return alias;

@@ -1,17 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Juan Ignacio Alvarez - nro. estudiante: 319853
+// Facundo Lorenzoni - nro. estudiante: 342249
+
 package obligatorio1p2;
 
 public class Tablero {
 
+    //Variables de clase
     private boolean[][] tableroX;
     private boolean[][] tableroO;
     private char[][][] listaTableros = new char[9][3][3];
     private String jugadorX;
     private String jugadorO;
 
+    //constructor
     public Tablero(String jugX, String jugO) {
 
         tableroX = new boolean[3][3];
@@ -20,6 +21,7 @@ public class Tablero {
         jugadorO = jugO;
     }
 
+    //Gets y sets
     public char[][][] getListaTableros() {
         return listaTableros;
     }
@@ -32,6 +34,15 @@ public class Tablero {
         return tableroO;
     }
 
+    //metodo para la jugada magica la cual segun el mini cuadro borra todas las fichas y si estaba ganado se pasa a false
+    public void jugadaMagica(String miniCuadro) {
+        int[] coord = posicion(miniCuadro);
+        listaTableros[posLista(miniCuadro)]=new char[3][3];
+        tableroX[coord[0]][coord[1]] = false;
+        tableroO[coord[0]][coord[1]] = false; 
+    }
+
+    //Devuelve un tablero segun el que se haya seleccionado
     public char[][] tableroJugada(String jugada) {
         int pos = 0;
         switch (jugada.charAt(0)) {
@@ -51,6 +62,7 @@ public class Tablero {
 
     }
 
+    //coloca la ficha en el tablero
     public boolean colocarFicha(String jugada, char[][] tab, String jug) {
         boolean seJugo = true;
         int fila = -1;
@@ -81,6 +93,7 @@ public class Tablero {
         return seJugo;
     }
 
+    //verifica que haya un tres en raya
     public boolean tresEnRaya(char[][] tablero) {
         boolean ganada = false;
         for (int i = 0; i < 3; i++) {
@@ -106,10 +119,13 @@ public class Tablero {
         return ganada;
     }
 
-    public boolean comprobarGanados(boolean[][] tableroGrande, int[] coord) {
+    //comprueba si el juego se ha ganado
+    public boolean comprobarGanados(boolean[][] tableroGrande) {
         boolean gano = false;
-        for (char[][] cs : listaTableros) {
-            if (tresEnRaya(cs)) {
+        for (int i = 0; i< listaTableros.length;i++) {
+            char[][] tab = listaTableros[i];
+            int[]coord = posicion(jugada(i));
+            if (tresEnRaya(tab)) {
                 tableroGanado(tableroGrande, coord[0], coord[1]);
                 if (partidaGanada(tableroGrande)) {
                     gano = true;
@@ -119,46 +135,30 @@ public class Tablero {
         return gano;
     }
 
+    //Se cambia el tablero al true de que esta ganado
     public void tableroGanado(boolean[][] tableroGrande, int fila, int col) {
         if (tableroX[fila][col] == false && tableroO[fila][col] == false) {
             tableroGrande[fila][col] = true;
         }
     }
 
+    //valida que haya un tres en raya en el tablero grande
     public boolean partidaGanada(boolean[][] tableroGrande) {
         boolean ganada = false;
-        // Verificar filas
         for (int i = 0; i < 3; i++) {
-            if (tableroGrande[i][0] && tableroGrande[i][0] == tableroGrande[i][1]
-                    && tableroGrande[i][1] == tableroGrande[i][2]) {
+            if ((tableroGrande[i][0] && tableroGrande[i][1] && tableroGrande[i][2]) || 
+            (tableroGrande[0][i] && tableroGrande[1][i] && tableroGrande[2][i])){
                 ganada = true;
             }
         }
-
-        // Verificar columnas
-        for (int i = 0; i < 3; i++) {
-            if (tableroGrande[0][i] && tableroGrande[0][i] == tableroGrande[1][i]
-                    && tableroGrande[1][i] == tableroGrande[2][i]) {
-                ganada = true;
-            }
-        }
-
-        // Verificar diagonal principal
-        if (tableroGrande[0][0] && tableroGrande[0][0] == tableroGrande[1][1]
-                && tableroGrande[1][1] == tableroGrande[2][2]) {
+        if((tableroGrande[0][0] && tableroGrande[1][1] && tableroGrande[2][2]) || 
+        (tableroGrande[2][0] && tableroGrande[1][1] && tableroGrande[0][2])){
             ganada = true;
         }
-
-        // Verificar diagonal secundaria
-        if (tableroGrande[0][2] && tableroGrande[0][2] == tableroGrande[1][1]
-                && tableroGrande[1][1] == tableroGrande[2][0]) {
-            ganada = true;
-        }
-
-        // No hay tres en raya
         return ganada;
     }
 
+    //ayuda a convertir de una jugada a una posicion de la matriz
     public int[] posicion(String pos) {
         int[] coord = new int[2];
         if (pos.charAt(0) == 'A') {
@@ -174,6 +174,38 @@ public class Tablero {
         return coord;
     }
 
+    //Valida que haya un empate cuando no hay ninguna jugada disponible
+    public boolean empate(char[][]miniCuadro){
+        boolean empate = true;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(miniCuadro[i][j]!='X' && miniCuadro[i][j]!='O'){
+                    empate = false;
+                }
+            }
+        }
+        return empate;
+    }
+
+    //convierte una jugada en una posicion de la lista
+    public int posLista(String pos) {
+        int num = Character.getNumericValue(pos.charAt(1))-1;
+        switch (pos.charAt(0)) {
+            case 'A':
+                num += 0;
+                break;
+            case 'B':
+                num += 3;
+                break;
+            case 'C':
+                num += 6;
+                break;
+            default:
+                break;
+        }
+        return num;
+    }
+    //convierte una posicion de la lista a una jugada
     public String jugada(int pos) {
         String jug = "";
         switch (pos) {
@@ -203,5 +235,11 @@ public class Tablero {
                 break;
         }
         return jug;
+    }
+    //genera una jugada aleatoria
+    public String jugadaComputadora(){
+        int jugadaPC = (int)(Math.random()*9);
+        return jugada(jugadaPC);
+        
     }
 }
